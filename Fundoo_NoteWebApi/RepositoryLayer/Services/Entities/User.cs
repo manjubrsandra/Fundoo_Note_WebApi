@@ -12,7 +12,7 @@ namespace RepositoryLayer.Services.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public String Password { get; set; }
+        public String password { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
     }
