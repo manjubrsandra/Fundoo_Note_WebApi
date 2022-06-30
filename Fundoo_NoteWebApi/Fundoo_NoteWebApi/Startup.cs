@@ -37,6 +37,7 @@ namespace Fundoo_NoteWebApi
             services.AddControllers();
             services.AddDbContext<FundooContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("Fundoo_Note")));
+
             var secret = this.Configuration.GetSection("JwtConfig").GetSection("SecretKey").Value;
             var key = Encoding.ASCII.GetBytes(secret);
 
@@ -56,6 +57,7 @@ namespace Fundoo_NoteWebApi
                 //    ValidateAudience = false
 
                 //};
+
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     IssuerSigningKey = new SymmetricSecurityKey(key),
@@ -65,7 +67,6 @@ namespace Fundoo_NoteWebApi
                     ValidAudience = "localhost"
                 };
             });
-
 
             services.AddSwaggerGen(setup =>
             {
@@ -87,12 +88,10 @@ namespace Fundoo_NoteWebApi
                 };
 
                 setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
-
                 setup.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     { jwtSecurityScheme, Array.Empty<string>() }
                 });
-
             });
 
             services.AddTransient<IUserBL, UserBL>();
@@ -106,10 +105,15 @@ namespace Fundoo_NoteWebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseHttpsRedirection();
+
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
+
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.)
@@ -117,8 +121,6 @@ namespace Fundoo_NoteWebApi
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fundoo_Notes");
             });
-
-
 
             app.UseEndpoints(endpoints =>
             {
