@@ -46,13 +46,13 @@ namespace Fundoo_NoteWebApi.Controllers
             try
             {
                 var user = fundooContext.Users.FirstOrDefault(u => u.Email == email);
-                string Password = PwdEncryptDecryptService.DecryptPassword(user.Password);
+                string Password1 = PwdEncryptDecryptService.DecryptPassword(user.Password);
                 if (user == null)
                 {
                     return this.BadRequest(new { success = false, message = "Email doesn't Exits" });
                 }
 
-                var userdata1 = fundooContext.Users.FirstOrDefault(u => u.Email == email && Password == password);
+                var userdata1 = fundooContext.Users.FirstOrDefault(u => u.Email == email && Password1 == password);
                 if (userdata1 == null)
                 {
                     return this.BadRequest(new { success = false, message = "Password is Invalid" });

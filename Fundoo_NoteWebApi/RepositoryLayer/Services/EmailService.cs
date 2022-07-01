@@ -20,7 +20,7 @@ namespace RepositoryLayer.Services
 
                 MailMessage msgObj = new MailMessage();
                 msgObj.To.Add(Email);
-                msgObj.From = new MailAddress("bharathakumara1994@gmail.com@gmail.com");
+                msgObj.From = new MailAddress("bharathakumara1994@gmail.com");
                 msgObj.Subject = "Password Reset Link";
                 msgObj.Body = $"www.FundooNotes.com/reset-password/{token}";
                 smtpClient.Send(msgObj);
