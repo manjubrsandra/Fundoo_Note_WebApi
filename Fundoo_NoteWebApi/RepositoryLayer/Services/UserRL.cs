@@ -189,7 +189,7 @@ namespace RepositoryLayer.Services
         }
 
         public bool ResetPassword(string email, UserPasswordModel userPasswordModel)
-        {
+        { 
             try
             {
                 var user = fundooContext.Users.Where(u => u.Email == email).FirstOrDefault();
