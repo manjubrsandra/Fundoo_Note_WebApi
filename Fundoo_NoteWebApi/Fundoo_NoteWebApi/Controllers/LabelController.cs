@@ -65,5 +65,30 @@ namespace Fundoo_NoteWebApi.Controllers
                 throw e;
             }
         }
+        [Authorize]
+        [HttpPut("UpdateLabel/{noteId}")]
+
+        public async Task<ActionResult> UpdateLabel(int noteId, string LabelName)
+        {
+            try
+            {
+                var currentUser = HttpContext.User;
+                int UserId = Convert.ToInt32(currentUser.Claims.FirstOrDefault(c => c.Type == "UserId").Value);
+
+
+                var label = fundooContext.Label.Where(u => u.UserId == UserId && u.NoteId == noteId).FirstOrDefault();
+                if (label == null)
+                {
+                    return this.BadRequest(new { success = true, Message = "Label Doesn't Exists" });
+                }
+                await this.labelBL.UpdateLabel(UserId, noteId, LabelName);
+                return this.Ok(new { success = true, Message = "Label Updated successfully" });
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
     }
 }

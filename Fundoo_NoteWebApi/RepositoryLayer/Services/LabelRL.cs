@@ -61,5 +61,23 @@ namespace RepositoryLayer.Services
                 throw e;
             }
         }
+
+        public async Task UpdateLabel(int userId, int noteId, string labelName)
+        {
+            try
+            {
+                var label = fundooContext.Label.Where(u => u.UserId == userId && u.NoteId == noteId).FirstOrDefault();
+                if (label != null)
+                {
+
+                    label.LabelName = labelName;
+                    await fundooContext.SaveChangesAsync();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

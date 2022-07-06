@@ -10,5 +10,6 @@ namespace RepositoryLayer.Interfaces
     {
         Task AddLabel(int userId,int noteId,string labelName);
         Task DeleteLabel(int userId, int noteId);
+        Task UpdateLabel(int userId, int noteId, string labelName);
     }
 }
