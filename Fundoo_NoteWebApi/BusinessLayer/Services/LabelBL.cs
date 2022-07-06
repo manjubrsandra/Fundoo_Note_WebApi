@@ -26,5 +26,18 @@ namespace BusinessLayer.Services
                 throw e;
             }
         }
+
+        public async Task DeleteLabel(int userId, int noteId)
+        {
+            try
+            {
+                await this.labelRL.DeleteLabel(userId, noteId);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
+    
 }

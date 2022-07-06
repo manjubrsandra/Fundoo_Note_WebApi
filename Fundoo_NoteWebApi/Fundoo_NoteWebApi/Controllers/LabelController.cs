@@ -21,7 +21,7 @@ namespace Fundoo_NoteWebApi.Controllers
         }
         [Authorize]
         [HttpPost("AddLabel/{NoteId}/{LabelName}")]
-        public async Task<ActionResult> AddLabel(int NoteId,string LabelName)
+        public async Task<ActionResult> AddLabel(int NoteId, string LabelName)
         {
             try
             {
@@ -31,18 +31,39 @@ namespace Fundoo_NoteWebApi.Controllers
                 var Label = fundooContext.Label.Where(x => x.UserId == userId && x.NoteId == NoteId).FirstOrDefault();
                 if (Label != null)
                 {
-                    return this.BadRequest(new {  status= 301, isSuccess=false,Message ="Enter new noteId"});
+                    return this.BadRequest(new { status = 301, isSuccess = false, Message = "Enter new noteId" });
                 }
-                await this.labelBL.AddLabel(userId, NoteId,LabelName);
+                await this.labelBL.AddLabel(userId, NoteId, LabelName);
 
-                return this.Ok(new { status= 200,  isSucces = true, Message = "Label created succesfully" });
-               
+                return this.Ok(new { status = 200, isSucces = true, Message = "Label created succesfully" });
+
             }
             catch (Exception e)
             {
                 throw e;
             }
         }
+        [Authorize]
+        [HttpDelete("DeleteLabel/{noteId}")]
 
+        public async Task<ActionResult> DeleteLabel(int noteId)
+        {
+            try
+            {
+                var currentUser = HttpContext.User;
+                int UserId = Convert.ToInt32(currentUser.Claims.FirstOrDefault(c => c.Type == "UserId").Value);
+                var label = fundooContext.Label.FirstOrDefault(u => u.UserId == UserId && u.NoteId == noteId);
+                if (label == null)
+                {
+                    return this.BadRequest(new { success = false, Message = "Label Doesn't Exists" });
+                }
+                await this.labelBL.DeleteLabel(UserId, noteId);
+                return this.Ok(new { success = true, Message = "Label Deleted Successfully" });
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }
