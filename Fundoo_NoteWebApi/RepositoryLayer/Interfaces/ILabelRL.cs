@@ -1,4 +1,5 @@
 ﻿
+using RepositoryLayer.Services.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,5 +12,8 @@ namespace RepositoryLayer.Interfaces
         Task AddLabel(int userId,int noteId,string labelName);
         Task DeleteLabel(int userId, int noteId);
         Task UpdateLabel(int userId, int noteId, string labelName);
+        Task<Label> GetLabel(int userId, int noteId);
+
+        Task<List<Label>> GetAllLabel(int userId);
     }
 }

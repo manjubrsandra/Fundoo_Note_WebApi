@@ -62,6 +62,35 @@ namespace RepositoryLayer.Services
             }
         }
 
+        public async Task<List<Label>> GetAllLabel(int userId)
+        {
+            try
+            {
+                var label = fundooContext.Label.FirstOrDefault(u => u.UserId == userId);
+                if (label== null)
+                {
+                    return null;
+                }
+                return await fundooContext.Label.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<Label> GetLabel(int userId, int noteId)
+        {
+            try
+            {
+                return await fundooContext.Label.FirstOrDefaultAsync(u => u.UserId == userId && u.NoteId == noteId);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public async Task UpdateLabel(int userId, int noteId, string labelName)
         {
             try
