@@ -10,8 +10,8 @@ using RepositoryLayer.Services;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(FundooContext))]
-    [Migration("20220630174029_note")]
-    partial class note
+    [Migration("20220706110135_abb")]
+    partial class abb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,9 +21,27 @@ namespace RepositoryLayer.Migrations
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("RepositoryLayer.Services.Entities.Label", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NoteId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LabelName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "NoteId");
+
+                    b.HasIndex("NoteId");
+
+                    b.ToTable("Label");
+                });
+
             modelBuilder.Entity("RepositoryLayer.Services.Entities.Note", b =>
                 {
-                    b.Property<int>("noteId")
+                    b.Property<int>("noteID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -61,7 +79,7 @@ namespace RepositoryLayer.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("noteId");
+                    b.HasKey("noteID");
 
                     b.ToTable("Notes");
                 });
@@ -94,6 +112,25 @@ namespace RepositoryLayer.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("RepositoryLayer.Services.Entities.Label", b =>
+                {
+                    b.HasOne("RepositoryLayer.Services.Entities.Note", "note")
+                        .WithMany()
+                        .HasForeignKey("NoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RepositoryLayer.Services.Entities.User", "user")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("note");
+
+                    b.Navigation("user");
                 });
 #pragma warning restore 612, 618
         }

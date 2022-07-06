@@ -76,6 +76,25 @@ namespace RepositoryLayer.Services
            
         }
 
+        public async Task ChangeColour(int UserId, int noteId, string Colour)
+        {
+            try
+            {
+
+                var note = fundooContext.Notes.Where(x => x.UserId == UserId && x.noteID == noteId).FirstOrDefault();
+                if (note != null)
+                {
+                    note.Colour = Colour;
+                    await fundooContext.SaveChangesAsync();
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public async Task DeleteNote(int UserId, int noteId)
         {
             try
@@ -139,7 +158,7 @@ namespace RepositoryLayer.Services
             }
         }
 
-        public async Task RemainderNote(int UserId, int noteId)
+        public async Task ReminderNote(int UserId, int noteId ,DateTime dateTime)
         {
             try
             {
@@ -151,7 +170,7 @@ namespace RepositoryLayer.Services
                         if(note.IsReminder==false)
                         {
                             note.IsReminder=true;
-                            note.Reminder = DateTime.Now;
+                            note.Reminder = dateTime;
                         }
                     }
                 }
@@ -169,7 +188,7 @@ namespace RepositoryLayer.Services
             {
 
 
-                var note = await fundooContext.Notes.FirstOrDefaultAsync(u => u.noteID == noteId && u.UserId ==UserId);
+                var note = fundooContext.Notes.FirstOrDefault(u => u.noteID == noteId && u.UserId ==UserId);
 
                 if (note != null)
                 {

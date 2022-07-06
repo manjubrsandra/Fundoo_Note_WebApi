@@ -43,6 +43,19 @@ namespace BusinessLayer.Services
             }
         }
 
+        public async Task ChangeColour(int UserId, int noteId, string Colour)
+        {
+            try
+            {
+                await noteRL.ChangeColour(noteId, UserId, Colour);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public async Task DeleteNote(int UserId, int NoteId)
         {
             try
@@ -80,13 +93,13 @@ namespace BusinessLayer.Services
             }
         }
 
-        public async  Task RemainderNote(int UserId, int noteId)
+        public async  Task ReminderNote(int UserId, int noteId, DateTime dateTime)
         {
            
             
                 try
                 {
-                    await this.noteRL.RemainderNote(UserId, noteId);
+                    await this.noteRL.ReminderNote(UserId, noteId, dateTime );
                 }
                 catch (Exception e)
                 {
