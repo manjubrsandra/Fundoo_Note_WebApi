@@ -10,7 +10,7 @@ using RepositoryLayer.Services;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(FundooContext))]
-    [Migration("20220706110135_abb")]
+    [Migration("20220708132016_abb")]
     partial class abb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,6 +30,7 @@ namespace RepositoryLayer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LabelName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId", "NoteId");
@@ -41,7 +42,7 @@ namespace RepositoryLayer.Migrations
 
             modelBuilder.Entity("RepositoryLayer.Services.Entities.Note", b =>
                 {
-                    b.Property<int>("noteID")
+                    b.Property<int>("noteId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -79,7 +80,7 @@ namespace RepositoryLayer.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("noteID");
+                    b.HasKey("noteId");
 
                     b.ToTable("Notes");
                 });
@@ -122,7 +123,7 @@ namespace RepositoryLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RepositoryLayer.Services.Entities.User", "user")
+                    b.HasOne("RepositoryLayer.Services.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -130,7 +131,7 @@ namespace RepositoryLayer.Migrations
 
                     b.Navigation("note");
 
-                    b.Navigation("user");
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

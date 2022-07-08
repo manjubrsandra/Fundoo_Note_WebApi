@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interfaces;
+using DatabaseLayer.Label;
 using RepositoryLayer.Interfaces;
 using RepositoryLayer.Services.Entities;
 using System;
@@ -40,7 +41,7 @@ namespace BusinessLayer.Services
             }
         }
 
-        public async Task<List<Label>> GetAllLabel(int userId)
+        public async Task<List<LabelResponseModel>> GetAllLabel(int userId)
         {
             try
             {

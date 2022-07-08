@@ -52,7 +52,7 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                var note = fundooContext.Notes.Where(x => x.UserId == UserId && x.noteID == noteId).FirstOrDefault();
+                var note = fundooContext.Notes.Where(x => x.UserId == UserId && x.noteId == noteId).FirstOrDefault();
                 if (note != null)
                 {
                     if (note.IsTrash == false)
@@ -81,7 +81,7 @@ namespace RepositoryLayer.Services
             try
             {
 
-                var note = fundooContext.Notes.Where(x => x.UserId == UserId && x.noteID == noteId).FirstOrDefault();
+                var note = fundooContext.Notes.Where(x => x.UserId == UserId && x.noteId == noteId).FirstOrDefault();
                 if (note != null)
                 {
                     note.Colour = Colour;
@@ -100,7 +100,7 @@ namespace RepositoryLayer.Services
             try
             {
 
-                var note = fundooContext.Notes.Where(x => x.UserId == UserId && x.noteID == noteId).FirstOrDefault();
+                var note = fundooContext.Notes.Where(x => x.UserId == UserId && x.noteId == noteId).FirstOrDefault();
                 if (note != null)
                 {
                     fundooContext.Notes.Remove(note);
@@ -136,7 +136,7 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                var note = fundooContext.Notes.Where(x => x.UserId == UserId && x.noteID == noteId).FirstOrDefault();
+                var note = fundooContext.Notes.Where(x => x.UserId == UserId && x.noteId == noteId).FirstOrDefault();
                 if (note != null)
                 {
                     if (note.IsTrash == false)
@@ -162,7 +162,7 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                var note = fundooContext.Notes.Where(x => x.UserId == UserId && x.noteID == noteId).FirstOrDefault();
+                var note = fundooContext.Notes.Where(x => x.UserId == UserId && x.noteId == noteId).FirstOrDefault();
                 if (note != null)
                 {
                     if(note.IsTrash==false)
@@ -188,7 +188,7 @@ namespace RepositoryLayer.Services
             {
 
 
-                var note = fundooContext.Notes.FirstOrDefault(u => u.noteID == noteId && u.UserId ==UserId);
+                var note = fundooContext.Notes.FirstOrDefault(u => u.noteId == noteId && u.UserId ==UserId);
 
                 if (note != null)
                 {

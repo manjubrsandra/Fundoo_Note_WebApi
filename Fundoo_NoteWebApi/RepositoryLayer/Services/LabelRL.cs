@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DatabaseLayer.Label;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Interfaces;
 using RepositoryLayer.Services.Entities;
@@ -62,7 +63,7 @@ namespace RepositoryLayer.Services
             }
         }
 
-        public async Task<List<Label>> GetAllLabel(int userId)
+        public async Task<List<LabelResponseModel>> GetAllLabel(int userId)
         {
             try
             {
@@ -71,7 +72,26 @@ namespace RepositoryLayer.Services
                 {
                     return null;
                 }
-                return await fundooContext.Label.ToListAsync();
+               // return await fundooContext.Label.ToListAsync();
+
+                // get all label bu join linq
+
+                return await fundooContext.Label
+                    .Where(c => c.UserId == userId)
+                    .Join(fundooContext.Notes
+                    .Where(b => b.noteId==label.NoteId),
+                    c => c.NoteId,
+                    b => b.noteId,
+                    (c,b)=>new LabelResponseModel
+                    {
+                        UserId=c.UserId,
+                        NoteId=b.noteId,
+
+                        Title=b.Title,
+                        Description=b.Description,
+                        LabelName=c.LabelName,
+
+                    }).ToListAsync();
             }
             catch (Exception e)
             {

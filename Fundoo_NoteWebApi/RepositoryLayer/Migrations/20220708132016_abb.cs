@@ -11,7 +11,7 @@ namespace RepositoryLayer.Migrations
                 name: "Notes",
                 columns: table => new
                 {
-                    noteID = table.Column<int>(type: "int", nullable: false)
+                    noteId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -27,7 +27,7 @@ namespace RepositoryLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Notes", x => x.noteID);
+                    table.PrimaryKey("PK_Notes", x => x.noteId);
                 });
 
             migrationBuilder.CreateTable(
@@ -54,7 +54,7 @@ namespace RepositoryLayer.Migrations
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
                     NoteId = table.Column<int>(type: "int", nullable: false),
-                    LabelName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    LabelName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,7 +63,7 @@ namespace RepositoryLayer.Migrations
                         name: "FK_Label_Notes_NoteId",
                         column: x => x.NoteId,
                         principalTable: "Notes",
-                        principalColumn: "noteID",
+                        principalColumn: "noteId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Label_Users_UserId",

@@ -34,6 +34,7 @@ namespace Fundoo_NoteWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMemoryCache();
             services.AddControllers();
             services.AddDbContext<FundooContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("Fundoo_Note")));
@@ -93,13 +94,19 @@ namespace Fundoo_NoteWebApi
                     { jwtSecurityScheme, Array.Empty<string>() }
                 });
             });
-
+            services.AddDistributedRedisCache(
+                options =>
+                {
+                    options.Configuration = "Localhost:6379";
+                }
+                );
             services.AddTransient<IUserBL, UserBL>();
             services.AddTransient<IUserRL, UserRL>();
             services.AddTransient<INoteBL, NoteBL>();
             services.AddTransient<INoteRL, NoteRL>();
             services.AddTransient<ILabelBL, LabelBL>();
             services.AddTransient<ILabelRL, LabelRL>(); 
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interfaces;
+using DatabaseLayer.Label;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryLayer.Services;
@@ -128,7 +129,7 @@ namespace Fundoo_NoteWebApi.Controllers
                 {
                     this.BadRequest(new { success = false, Message = "Label doesn't exist" });
                 }
-                List<Label> labelList = new List<Label>();
+                List<LabelResponseModel> labelList = new List<LabelResponseModel>();
                 labelList = await this.labelBL.GetAllLabel(UserId);
                 return Ok(new { success = true, Message = $"Note Obtained successfully ", data = labelList });
             }

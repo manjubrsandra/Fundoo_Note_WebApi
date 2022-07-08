@@ -10,7 +10,7 @@ namespace RepositoryLayer.Services.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int noteID { get; set; }
+        public int noteId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Colour { get; set; }
