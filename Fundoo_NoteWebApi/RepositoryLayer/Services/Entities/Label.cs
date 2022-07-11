@@ -11,17 +11,16 @@ namespace RepositoryLayer.Services.Entities
     [Keyless]
     public class Label
     {
-        [Required]
+        
         public String LabelName { get; set; }
        
 
-        [Required]
+       
         [ForeignKey("User")]
         public int UserId { get; set; }
        
 
 
-        [Required]
         [ForeignKey("Notes")]
         public int NoteId { get; set; }
         

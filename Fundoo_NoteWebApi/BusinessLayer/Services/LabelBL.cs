@@ -41,13 +41,13 @@ namespace BusinessLayer.Services
             }
         }
 
-        public async Task<List<LabelResponseModel>> GetAllLabel(int userId)
+        public async Task<List<LabelResponseModel>> GetAllLabelsByLinqJoins(int UserId)
         {
             try
             {
-                return await this.labelRL.GetAllLabel(userId);
+                return await this.labelRL.GetAllLabelsByLinqJoins(UserId);
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 throw e;
             }

@@ -63,39 +63,42 @@ namespace RepositoryLayer.Services
             }
         }
 
-        public async Task<List<LabelResponseModel>> GetAllLabel(int userId)
+        public async Task<List<LabelResponseModel>> GetAllLabelsByLinqJoins(int UserId)
         {
             try
             {
-                var label = fundooContext.Label.FirstOrDefault(u => u.UserId == userId);
-                if (label== null)
+                var label = fundooContext.Label.FirstOrDefault(u => u.UserId == UserId);
+                if (label == null)
                 {
                     return null;
                 }
-               // return await fundooContext.Label.ToListAsync();
 
-                // get all label bu join linq
 
-                return await fundooContext.Label
-                    .Where(c => c.UserId == userId)
-                    .Join(fundooContext.Notes
-                    .Where(b => b.noteId==label.NoteId),
-                    c => c.NoteId,
-                    b => b.noteId,
-                    (c,b)=>new LabelResponseModel
-                    {
-                        UserId=c.UserId,
-                        NoteId=b.noteId,
+                var res = await(from user in fundooContext.Users
+                                join notes in fundooContext.Notes on user.UserId equals UserId
+                                join labels in fundooContext.Label on notes.noteId equals labels.NoteId
+                                where labels.UserId == UserId
 
-                        Title=b.Title,
-                        Description=b.Description,
-                        LabelName=c.LabelName,
 
-                    }).ToListAsync();
+                                select new LabelResponseModel
+                                {
+                                    UserId = UserId,
+                                    NoteId = notes.noteId,
+                                    Title = notes.Title,
+                                    FirstName=user.FirstName,
+                                    LastName=user.LastName,
+                                    Email=user.Email,
+                                    Description = notes.Description,
+                                    LabelName   = labels.LabelName,
+                                }).ToListAsync();
+
+
+
+                return res;
             }
             catch (Exception e)
             {
-                throw e;
+                throw new Exception(e.Message);
             }
         }
 

@@ -115,24 +115,22 @@ namespace Fundoo_NoteWebApi.Controllers
             }
         }
         [Authorize]
-        [HttpGet("GetAllLabel")]
+        [HttpGet("GetAllLabelsUsingJoins")]
 
-        public async Task<ActionResult> GetAllLabel()
+        public async Task<IActionResult> GetAllLabelsByLinqJoins()
         {
             try
             {
                 var currentUser = HttpContext.User;
-                var UserId = Convert.ToInt32(currentUser.Claims.FirstOrDefault(c => c.Type=="UserId").Value);
-
-                var label = fundooContext.Label.FirstOrDefault(u => u.UserId==UserId);
-                if (label == null)
+                var userId = Convert.ToInt32(currentUser.Claims.FirstOrDefault(x => x.Type == "UserId").Value);
+                var labels = await labelBL.GetAllLabelsByLinqJoins(userId);
+                if (labels != null)
                 {
-                    this.BadRequest(new { success = false, Message = "Label doesn't exist" });
+                    return this.Ok(new { status = 200, success = true, message = "All Label are ready", data = labels });
                 }
-                List<LabelResponseModel> labelList = new List<LabelResponseModel>();
-                labelList = await this.labelBL.GetAllLabel(UserId);
-                return Ok(new { success = true, Message = $"Note Obtained successfully ", data = labelList });
+                else { return this.NotFound(new { success = false, message = "No Label found" }); }
             }
+
             catch (Exception e)
             {
                 throw e;

@@ -12,6 +12,6 @@ namespace BusinessLayer.Interfaces
         Task UpdateLabel(int userId, int noteId, string labelName);
         Task<Label> GetLabel(int userId, int noteId);
 
-        Task<List<LabelResponseModel>> GetAllLabel(int userId);
+        Task<List<LabelResponseModel>> GetAllLabelsByLinqJoins(int UserId);
     }
 }
